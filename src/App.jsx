@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Invoice from "./pages/Invoice";
@@ -5,10 +6,11 @@ import Customer from "./pages/Customer";
 import Sidebar from "./components/Sidebar";
 import CreateInvoice from "./components/CreateInvoice";
 import EditInvoice from "./components/EditInvoice";
+import { InvoiceProvider } from './context/InvoiceContext';
 
 function App() {
   return (
-    <>
+    <InvoiceProvider>
       <Router>
         <div className="flex flex-col md:flex-row sm:flex-row min-h-screen">
           <Sidebar />
@@ -25,7 +27,7 @@ function App() {
           </main>
         </div>
       </Router>
-    </>
+    </InvoiceProvider>
   );
 }
 

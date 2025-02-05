@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,9 +10,13 @@ import {
   faTrash,
   faChevronLeft,
   faChevronRight,
+  faClock,
 } from "@fortawesome/free-solid-svg-icons";
+import { InvoiceContext } from "../context/InvoiceContext";
 
 function Invoice() {
+  const { invoices } = useContext(InvoiceContext);
+
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
       <div className="w-full">
@@ -53,48 +57,48 @@ function Invoice() {
                   </tr>
                 </thead>
                 <tbody className="bg-white">
-                  <tr className="w-full border-b py-3 text-sm last-of-type:border-none">
-                    <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                      <div className="flex items-cemter gap-3">
-                        <img
-                          src="https://assets.unileversolutions.com/v1/121910209.jpg"
-                          alt=""
-                          loading="lazy"
-                          className="rounded-full"
-                          width={28}
-                          height={28}
-                        />
-                        <p>Amy Burn</p>
-                      </div>
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-3">
-                      amy@burn.com
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-3">$555.0</td>
-                    <td className="whitespace-nowrap px-3 py-3">Feb 5, 2025</td>
-                    <td className="whitespace-nowrap px-3 py-3">
-                      <span className="inline-flex items-center rounded-full px-2 py-1 text-xs bg-green-500 text-white">
-                        Paid
-                        <FontAwesomeIcon
-                          icon={faCheck}
-                          className="ml-1 w-4 text-white"
-                        />
-                      </span>
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-3">
-                      <div className="flex justify-end items-center gap-3">
-                        <NavLink to="/invoice/editinvoice">
-                          <div className="rounded-md border border-gray-300 p-2 hover:bg-gray-100">
-                            <FontAwesomeIcon icon={faPen} />
-                          </div>
-                        </NavLink>
-                        <button className="rounded-md border border-gray-300 p-2 hover:bg-gray-100">
-                          <span className="sr-only">Delete</span>
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  {invoices.map((invoice, index) => (
+                    <tr key={index} className="w-full border-b py-3 text-sm last-of-type:border-none">
+                      <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src="https://assets.unileversolutions.com/v1/121910209.jpg"
+                            alt=""
+                            loading="lazy"
+                            className="rounded-full"
+                            width={28}
+                            height={28}
+                          />
+                          <p>{invoice.customerId}</p>
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3">{invoice.customerId}@gmail.com</td>
+                      <td className="whitespace-nowrap px-3 py-3">${invoice.amount}</td>
+                      <td className="whitespace-nowrap px-3 py-3">{invoice.date}</td>
+                      <td className="whitespace-nowrap px-3 py-3">
+                        <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${invoice.status === 'paid' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}`}>
+                          {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                          <FontAwesomeIcon
+                            icon={invoice.status === 'paid' ? faCheck : faClock}
+                            className="ml-1 w-4 text-white"
+                          />
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3">
+                        <div className="flex justify-end items-center gap-3">
+                          <NavLink to="/invoice/editinvoice">
+                            <div className="rounded-md border border-gray-300 p-2 hover:bg-gray-100">
+                              <FontAwesomeIcon icon={faPen} />
+                            </div>
+                          </NavLink>
+                          <button className="rounded-md border border-gray-300 p-2 hover:bg-gray-100">
+                            <span className="sr-only">Delete</span>
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

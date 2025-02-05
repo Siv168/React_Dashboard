@@ -1,36 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDollar, faClock, faCheck } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { InvoiceContext } from "../context/InvoiceContext";
 
 function CreateInvoice() {
-  const { invoices, setInvoices } = useContext(InvoiceContext);
 
-  const getRandomDate = () => {
-    const start = new Date(2020, 0, 1);
-    const end = new Date(2025, 11, 31);
-    const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-  };
+    const { invoices, setInvoices } = useContext(InvoiceContext);
+    const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const data = new FormData(e.target);
-    const customerData = {
-      customerId: data.get("customerId"),
-      amount: data.get("amount"),
-      status: data.get("status"),
-      date: getRandomDate(),
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const data = new FormData(e.target);
+        const customerData = {
+            customerId: data.get("customerId"),
+            email: `${data.get("customerId").toLowerCase().replace(" ", "")}@example.com`,
+            amount: data.get("amount"),
+            date: new Date().toLocaleDateString(),
+            status: data.get("status"),
+        };
+
+        setInvoices([...invoices, customerData]);
+        navigate("/invoice");
+
+        e.target.reset();
     };
-
-    setInvoices([...invoices, customerData]);
-
-    e.target.reset();
-  }
-
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
       <main>
@@ -48,11 +43,11 @@ function CreateInvoice() {
               </NavLink>
             </li>
           </ol>
-        </nav> 
-        <form action="" onSubmit={handleSubmit}>
+        </nav>
+        <form action=" " onSubmit={handleSubmit}>
           <div className="rounded-md bg-gray-50 p-4 md:p-6">
             <div className="mb-4">
-              <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+              <label htmlFor="customer" name="customerId" className="mb-2 block text-sm font-medium">
                 Choose Customer
               </label>
               <div className="relative">
@@ -62,22 +57,22 @@ function CreateInvoice() {
                   className="peer block w-full rounded-md border text-gray-600 border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                 >
                   <option value="disable selected">Select a customer</option>
-                  <option value="John Doe">John Doe</option>
-                  <option value="Jane Doe">Jane Doe</option>
-                  <option value="Alice Smith">Alice Smith</option>
-                  <option value="Bob Johnson">Bob Johnson</option>
-                  <option value="Charlie Brown">Charlie Brown</option>
-                  <option value="David Wilson">David Wilson</option>
-                  <option value="Eva Green">Eva Green</option>
-                  <option value="Frank White">Frank White</option>
-                  <option value="Grace Black">Grace Black</option>
-                  <option value="Hannah Blue">Hannah Blue</option>
+                  <option value="1">John Doe</option>
+                  <option value="2">Jane Doe</option>
+                  <option value="3">Alice Smith</option>
+                  <option value="4">Bob Johnson</option>
+                  <option value="5">Charlie Brown</option>
+                  <option value="6">David Wilson</option>
+                  <option value="7">Eva Green</option>
+                  <option value="8">Frank White</option>
+                  <option value="9">Grace Black</option>
+                  <option value="10">Hannah Blue</option>
                 </select>
                 <FontAwesomeIcon icon={faUser} className="absolute top-3 left-4 text-gray-500" />
               </div>
             </div>
             <div className="mb-4">
-              <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+              <label htmlFor="amount" name="amount" className="mb-2 block text-sm font-medium">
                 Choose an amount
               </label>
               <div className="relative">
