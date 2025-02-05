@@ -3,19 +3,23 @@ import Dashboard from "./pages/Dashboard";
 import Invoice from "./pages/Invoice";
 import Customer from "./pages/Customer";
 import Sidebar from "./components/Sidebar";
+import CreateInvoice from "./components/CreateInvoice";
+import EditInvoice from "./components/EditInvoice";
 
 function App() {
   return (
     <>
       <Router>
         <div className="flex flex-col md:flex-row sm:flex-row min-h-screen">
-          <Sidebar/>
+          <Sidebar />
           <main className="flex-grow flex flex-col md:ml-63 sm:ml-63">
             <div className="p-4">
               <Routes>
-                <Route path="/" element={<Dashboard/>}/>
-                <Route path="/invoice" element={<Invoice/>}/>
-                <Route path="/customer" element={<Customer/>}/>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/invoice" element={<Invoice />} />
+                <Route path="/invoice/createinvoice" element={<CreateInvoice />} />
+                <Route path="/invoice/editinvoice" element={<EditInvoice />} />
+                <Route path="/customer" element={<Customer />} />
               </Routes>
             </div>
           </main>

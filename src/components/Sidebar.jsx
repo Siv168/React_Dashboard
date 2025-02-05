@@ -9,7 +9,7 @@ import {
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 
-const link = [
+const links = [
   {
     name: "Dashboard",
     path: "/",
@@ -41,12 +41,12 @@ function Sidebar() {
         <span className="text-5xl font-[lusitana]">Acme</span>
       </div>
 
-      <nav className="mt-0  md:mt-2 flex-grow flex flex-row md:flex-col font-[inter]">
+      <nav className="mt-0 md:mt-2 flex-grow flex flex-row md:flex-col font-[inter]">
         <div className="flex flex-row md:flex-col flex-nowrap justify-around md:justify-start gap-2 w-full h-auto">
-          {link.map((links, key) => (
+          {links.map((link, key) => (
             <NavLink
               key={key}
-              to={links.path}
+              to={link.path}
               className={({ isActive }) =>
                 `mt-3 md:mt-0 flex flex-1 md:flex-none items-center justify-center md:justify-start gap-2 p-2 md:p-4 font-semibold text-black bg-gray-50 h-12 md:h-14 ${
                   isActive
@@ -56,25 +56,24 @@ function Sidebar() {
               }
               end
             >
-              <p>{cloneElement(links.icon, { className: "md:mr-2 text-[24px]" })}</p>
-              <p className="hidden md:block">{links.name}</p>
+              <p>{cloneElement(link.icon, { className: "md:mr-2 text-[24px]" })}</p>
+              <p className="hidden md:block">{link.name}</p>
             </NavLink>
           ))}
         </div>
-          <div className="bg-gray-50 my-2 hidden md:block flex-grow"></div>
-          {/* Logout Button */}
-          <p className="md:hidden">|</p>
-          <NavLink
-            to="/"
-            className="mt-3 md:mt-0 flex flex-1  md:flex-none items-center justify-center md:justify-start gap-2 p-2 md:p-4 font-semibold rounded-sm text-black bg-gray-50 hover:bg-blue-100 hover:text-blue-400 md:rounded-sm transition-all duration-300 h-12 md:h-14"
-            end
-          >
-            <FontAwesomeIcon icon={faPowerOff} className="md:mr-2 text-[24px] " />
-            <p className="hidden md:block">Logout</p>
-          </NavLink>
+        <div className="bg-gray-50 my-2 hidden md:block flex-grow"></div>
+        {/* Logout Button */}
+        <p className="md:hidden">|</p>
+        <NavLink
+          to="/"
+          className="mt-3 md:mt-0 flex flex-1 md:flex-none items-center justify-center md:justify-start gap-2 p-2 md:p-4 font-semibold rounded-sm text-black bg-gray-50 hover:bg-blue-100 hover:text-blue-400 md:rounded-sm transition-all duration-300 h-12 md:h-14"
+          end
+        >
+          <FontAwesomeIcon icon={faPowerOff} className="md:mr-2 text-[24px] " />
+          <p className="hidden md:block">Logout</p>
+        </NavLink>
       </nav>
     </div>
-
   );
 }
 
