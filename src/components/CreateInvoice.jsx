@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faDollar, faClock, faCheck } from "@fortawesome/free-solid-svg-icons";
-import React, { useState, useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { InvoiceContext } from "../context/InvoiceContext";
 
 function CreateInvoice() {

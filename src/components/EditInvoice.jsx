@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -7,8 +7,33 @@ import {
   faClock,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { InvoiceContext } from "../context/InvoiceContext";
 
 function EditInvoice() {
+  const { invoices, setInvoices } = useContext(InvoiceContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { invoice, index } = location.state;
+  const [formData, setFormData] = useState(invoice);
+
+  useEffect(() => {
+    setFormData(invoice);
+  }, [invoice]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const updatedInvoices = invoices.map((inv, i) =>
+      i === index ? formData : inv
+    );
+    setInvoices(updatedInvoices);
+    navigate("/invoice");
+  };
+
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
       <main>
@@ -22,7 +47,7 @@ function EditInvoice() {
               <span className="mx-3 inline-block">/</span>
             </li>
             <li className="text-gray-900">
-              <NavLink to="/invoice/createinvoice">
+              <NavLink to="/invoice/editinvoice">
                 <div className="">Edit Invoice</div>
               </NavLink>
             </li>
@@ -30,43 +55,44 @@ function EditInvoice() {
         </nav>
 
         {/* Edit Invoice Form */}
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className="rounded-md bg-gray-50 p-4 md:p-6">
-            {/* Customer Selection */}
-            <div className="mb-4">
-              <label
-                htmlFor="customer"
-                name="customerId"
-                className="mb-2 block text-sm font-medium"
-              >
-                Choose Customer
-              </label>
-              <div className="relative">
-                <select
-                  id="customer"
-                  name="customerId"
-                  className="peer block w-full rounded-md border text-gray-600 border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                >
-                  <option value="disable selected">Select a customer</option>
-                  <option value="1">John Doe</option>
-                  <option value="2">Jane Doe</option>
-                  <option value="3">Alice Smith</option>
-                  <option value="4">Bob Johnson</option>
-                  <option value="5">Charlie Brown</option>
-                  <option value="6">David Wilson</option>
-                  <option value="7">Eva Green</option>
-                  <option value="8">Frank White</option>
-                  <option value="9">Grace Black</option>
-                  <option value="10">Hannah Blue</option>
-                </select>
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className="absolute top-3 left-4 text-gray-500"
-                />
-              </div>
-            </div>
+                  <div className="mb-4">
+                    <label
+                    htmlFor="customer"
+                    name="customerId"
+                    className="mb-2 block text-sm font-medium"
+                    >
+                    Choose Customer
+                    </label>
+                    <div className="relative">
+                    <select
+                      id="customer"
+                      name="customerId"
+                      value={formData.customerId}
+                      onChange={handleChange}
+                      className="peer block w-full rounded-md border text-gray-600 border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                    >
+                      <option value="" disabled selected>Select a customer</option>
+                      <option value="John Doe">John Doe</option>
+                      <option value="Jane Doe">Jane Doe</option>
+                      <option value="Alice Smith">Alice Smith</option>
+                      <option value="Bob Johnson">Bob Johnson</option>
+                      <option value="Charlie Brown">Charlie Brown</option>
+                      <option value="David Wilson">David Wilson</option>
+                      <option value="Eva Green">Eva Green</option>
+                      <option value="Frank White">Frank White</option>
+                      <option value="Grace Black">Grace Black</option>
+                      <option value="Hannah Blue">Hannah Blue</option>
+                    </select>
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="absolute top-3 left-4 text-gray-500"
+                    />
+                    </div>
+                  </div>
 
-            {/* Amount Input */}
+                  {/* Amount Input */}
             <div className="mb-4">
               <label
                 htmlFor="amount"
@@ -81,6 +107,8 @@ function EditInvoice() {
                   type="text"
                   id="amount"
                   name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
                   className="peer block w-full rounded-md border text-gray-600 border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                 />
                 <FontAwesomeIcon
@@ -103,6 +131,8 @@ function EditInvoice() {
                       id="pending"
                       value="pending"
                       name="status"
+                      checked={formData.status === "pending"}
+                      onChange={handleChange}
                     />
                     <label
                       htmlFor="pending"
@@ -116,7 +146,14 @@ function EditInvoice() {
                     </label>
                   </div>
                   <div className="flex items-center">
-                    <input type="radio" id="paid" value="paid" name="status" />
+                    <input
+                      type="radio"
+                      id="paid"
+                      value="paid"
+                      name="status"
+                      checked={formData.status === "paid"}
+                      onChange={handleChange}
+                    />
                     <label
                       htmlFor="paid"
                       className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full text-white bg-green-500 px-3 py-1.5 text-xs font-medium"

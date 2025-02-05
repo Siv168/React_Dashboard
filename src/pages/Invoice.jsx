@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -15,7 +14,27 @@ import {
 import { InvoiceContext } from "../context/InvoiceContext";
 
 function Invoice() {
-  const { invoices } = useContext(InvoiceContext);
+  const { invoices, setInvoices } = useContext(InvoiceContext);
+  const navigate = useNavigate();
+
+  const handleDelete = (index) => {
+    const updatedInvoices = invoices.filter((_, i) => i !== index);
+    setInvoices(updatedInvoices);
+  };
+
+  const handleEdit = (invoice, index) => {
+    navigate("/invoice/editinvoice", { state: { invoice, index } });
+  };
+
+  if (!invoices) {
+    console.error("Invoices context is not available");
+    return <div>Error: Invoices context is not available</div>;
+  }
+
+  if (!Array.isArray(invoices)) {
+    console.error("Invoices is not an array", invoices);
+    return <div>Error: Invoices is not an array</div>;
+  }
 
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
@@ -69,10 +88,10 @@ function Invoice() {
                             width={28}
                             height={28}
                           />
-                          <p>{invoice.customerId}</p>
+                          <p>{invoice.customerId.replace(/\s+/g, '')}</p>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-3">{invoice.customerId}@gmail.com</td>
+                      <td className="whitespace-nowrap px-3 py-3 lowercase">{invoice.customerId.replace(/\s+/g, '')}@gmail.com</td>
                       <td className="whitespace-nowrap px-3 py-3">${invoice.amount}</td>
                       <td className="whitespace-nowrap px-3 py-3">{invoice.date}</td>
                       <td className="whitespace-nowrap px-3 py-3">
@@ -86,12 +105,16 @@ function Invoice() {
                       </td>
                       <td className="whitespace-nowrap px-3 py-3">
                         <div className="flex justify-end items-center gap-3">
-                          <NavLink to="/invoice/editinvoice">
-                            <div className="rounded-md border border-gray-300 p-2 hover:bg-gray-100">
-                              <FontAwesomeIcon icon={faPen} />
-                            </div>
-                          </NavLink>
-                          <button className="rounded-md border border-gray-300 p-2 hover:bg-gray-100">
+                          <button
+                            className="rounded-md border border-gray-300 p-2 hover:bg-gray-100"
+                            onClick={() => handleEdit(invoice, index)}
+                          >
+                            <FontAwesomeIcon icon={faPen} />
+                          </button>
+                          <button
+                            className="rounded-md border border-gray-300 p-2 hover:bg-gray-100"
+                            onClick={() => handleDelete(index)}
+                          >
                             <span className="sr-only">Delete</span>
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
