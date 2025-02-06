@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,6 +11,12 @@ import { CustomerContext } from "../context/CustomerContext";
 
 function Customer() {
   const { customers } = useContext(CustomerContext);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCustomers = customers.filter(customer =>
+    customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
@@ -23,6 +29,8 @@ function Customer() {
             <input
               type="text"
               placeholder="Search for customers..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="peer block w-full rounded-md border border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
             />
             <FontAwesomeIcon
@@ -46,7 +54,7 @@ function Customer() {
                   </tr>
                 </thead>
                 <tbody className="bg-white tex-left">
-                  {customers.map((customer, index) => (
+                  {filteredCustomers.map((customer, index) => (
                     <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex items-center gap-3">
