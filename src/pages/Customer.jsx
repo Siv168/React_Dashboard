@@ -42,9 +42,30 @@ function Customer() {
         <div className="mt-6 flow-root">
           <div className="inline-block min-w-full align-middle">
             <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-              <div className="md:hidden"></div>
+              <div className="md:hidden font-[inter]">
+                {filteredCustomers.map((customer, index) => (
+                  <div key={index} className="mb-2 w-full rounded bg-white p-4">
+                    <div className="flex items-center justify-between border-b border-gray-400 pb-4">
+                      <div className="mb-2 flex items-center gap-2">
+                        <img src={customer.img} loading="lazy" width={28} height={28} className="rounded-full" alt="" />
+                        <div>
+                          <p>{customer.name}</p>
+                          <p className="text-sm text-gray-500">{customer.email}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center justify-between  pt-4">
+                      <div>
+                        <p className="text-xl font-medium">Total Invoice: {customer.totalInvoice}</p>
+                        <p>Total Pending: ${customer.totalPending.toFixed(2)}</p>
+                        <p>Total Paid: ${customer.totalPaid.toFixed(2)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full text-gray-900 md:table font-[inter]">
+                <table className="hidden min-w-full text-gray-900 md:table font-[inter]">
                   <thead className="rounded-lg text-left text-sm font-normal">
                     <tr>
                       <th className="px-4 py-5 font-medium sm:pl-6">Name</th>

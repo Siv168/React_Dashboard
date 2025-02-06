@@ -74,9 +74,42 @@ function Invoice() {
         <div className="mt-6 flow-root">
           <div className="inline-block min-w-full align-middle">
             <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-              <div className="md:hidden"></div>
+              <div className="md:hidden">
+                {filteredInvoices.map((invoice, index) => (
+                  <div key={index} className="mb-2 w-full rounded bg-white p-4">
+                    <div className="flex items-center justify-between border-b pb-4">
+                      <div className="mb-2 flex items-center gap-2">
+                        <img src="https://assets.unileversolutions.com/v1/121910209.jpg" loading="lazy" width={28} height={28} className="rounded-full" alt="" />
+                        <div>
+                          <p>{invoice.customerId.replace(/\s+/g, '')}</p>
+                          <p className="text-sm text-gray-500">{invoice.customerId.replace(/\s+/g, '')}@gmail.com</p>
+                        </div>
+                      </div>
+                      <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${invoice.status === 'paid' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}`}>
+                        {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                        <FontAwesomeIcon icon={invoice.status === 'paid' ? faCheck : faClock} className="ml-1 w-4 text-white" />
+                      </span>
+                    </div>
+                    <div className="flex w-full items-center justify-between pt-4">
+                      <div>
+                        <p className="text-xl font-medium">${invoice.amount}</p>
+                        <p>{invoice.date}</p>
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <button className="rounded-md border border-gray-300 p-2 hover:bg-gray-100" onClick={() => handleEdit(invoice, index)}>
+                          <FontAwesomeIcon icon={faPen} />
+                        </button>
+                        <button className="rounded-md border border-gray-300 p-2 hover:bg-gray-100" onClick={() => handleDelete(index)}>
+                          <span className="sr-only">Delete</span>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full text-gray-900 md:table font-[inter]">
+                <table className="hidden min-w-full text-gray-900 md:table font-[inter]">
                   <thead className="rounded-lg text-left text-sm font-normal">
                     <tr>
                       <th className="px-4 py-5 font-medium sm:pl-6">Customer</th>

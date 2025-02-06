@@ -29,7 +29,7 @@ const links = [
 
 function Sidebar() {
   return (
-    <div className="md:fixed top-0 left-0 right-0 md:bottom-0 md:left-0 md:w-63 md:h-screen text-white flex flex-col md:py-4 px-2 z-50">
+    <div className="md:fixed top-0 left-0 right-0 md:bottom-0 md:left-0 md:w-63 md:h-screen text-white bg-white flex flex-col md:py-4 px-2 z-50">
       {/* Logo - Hidden on mobile */}
       <div className="md:flex flex md:h-35 h-17 bg-blue-600 text-lg rounded-md md:items-end items-center px-4 md:pb-5">
         <h2>
