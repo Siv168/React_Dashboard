@@ -77,7 +77,7 @@ function Invoice() {
                 </thead>
                 <tbody className="bg-white">
                   {invoices.map((invoice, index) => (
-                    <tr key={index} className="w-full border-b py-3 text-sm last-of-type:border-none">
+                    <tr key={index} className="w-full border-b border-gray-300  py-3 text-sm last-of-type:border-none">
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex items-center gap-3">
                           <img
