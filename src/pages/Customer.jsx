@@ -43,40 +43,42 @@ function Customer() {
           <div className="inline-block min-w-full align-middle">
             <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden"></div>
-              <table className=" min-w-full text-gray-900 md:table font-[inter]">
-                <thead className="rounded-lg text-left text-sm font-normal">
-                  <tr>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Name</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Email</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Total Invoice</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Total Pending</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Total Paid</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white tex-left">
-                  {filteredCustomers.map((customer, index) => (
-                    <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
-                      <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={customer.img}
-                            alt=""
-                            loading="lazy"
-                            className="rounded-full"
-                            width={28}
-                            height={28}
-                          />
-                          <p>{customer.name}</p>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-3 lowercase">{customer.email}</td>
-                      <td className="whitespace-nowrap px-3 py-3">{customer.totalInvoice}</td>
-                      <td className="whitespace-nowrap px-3 py-3">${customer.totalPending.toFixed(2)}</td>
-                      <td className="whitespace-nowrap px-3 py-3">${customer.totalPaid.toFixed(2)}</td>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-gray-900 md:table font-[inter]">
+                  <thead className="rounded-lg text-left text-sm font-normal">
+                    <tr>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Name</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Email</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Total Invoice</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Total Pending</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Total Paid</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="bg-white tex-left">
+                    {filteredCustomers.map((customer, index) => (
+                      <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
+                        <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={customer.img}
+                              alt=""
+                              loading="lazy"
+                              className="rounded-full"
+                              width={28}
+                              height={28}
+                            />
+                            <p>{customer.name}</p>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-3 lowercase">{customer.email}</td>
+                        <td className="whitespace-nowrap px-3 py-3">{customer.totalInvoice}</td>
+                        <td className="whitespace-nowrap px-3 py-3">${customer.totalPending.toFixed(2)}</td>
+                        <td className="whitespace-nowrap px-3 py-3">${customer.totalPaid.toFixed(2)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

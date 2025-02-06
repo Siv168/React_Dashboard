@@ -75,65 +75,67 @@ function Invoice() {
           <div className="inline-block min-w-full align-middle">
             <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
               <div className="md:hidden"></div>
-              <table className=" min-w-full text-gray-900 md:table font-[inter]">
-                <thead className="rounded-lg text-left text-sm font-normal">
-                  <tr>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Customer</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Email</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Amount</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Date</th>
-                    <th className="px-4 py-5 font-medium sm:pl-6">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white">
-                  {filteredInvoices.map((invoice, index) => (
-                    <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
-                      <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="https://assets.unileversolutions.com/v1/121910209.jpg"
-                            alt=""
-                            loading="lazy"
-                            className="rounded-full"
-                            width={28}
-                            height={28}
-                          />
-                          <p>{invoice.customerId.replace(/\s+/g, '')}</p>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-3 lowercase">{invoice.customerId.replace(/\s+/g, '')}@gmail.com</td>
-                      <td className="whitespace-nowrap px-3 py-3">${invoice.amount}</td>
-                      <td className="whitespace-nowrap px-3 py-3">{invoice.date}</td>
-                      <td className="whitespace-nowrap px-3 py-3">
-                        <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${invoice.status === 'paid' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}`}>
-                          {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
-                          <FontAwesomeIcon
-                            icon={invoice.status === 'paid' ? faCheck : faClock}
-                            className="ml-1 w-4 text-white"
-                          />
-                        </span>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-3">
-                        <div className="flex justify-end items-center gap-3">
-                          <button
-                            className="rounded-md border border-gray-300 p-2 hover:bg-gray-100"
-                            onClick={() => handleEdit(invoice, index)}
-                          >
-                            <FontAwesomeIcon icon={faPen} />
-                          </button>
-                          <button
-                            className="rounded-md border border-gray-300 p-2 hover:bg-gray-100"
-                            onClick={() => handleDelete(index)}
-                          >
-                            <span className="sr-only">Delete</span>
-                            <FontAwesomeIcon icon={faTrash} />
-                          </button>
-                        </div>
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-gray-900 md:table font-[inter]">
+                  <thead className="rounded-lg text-left text-sm font-normal">
+                    <tr>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Customer</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Email</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Amount</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Date</th>
+                      <th className="px-4 py-5 font-medium sm:pl-6">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="bg-white">
+                    {filteredInvoices.map((invoice, index) => (
+                      <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
+                        <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src="https://assets.unileversolutions.com/v1/121910209.jpg"
+                              alt=""
+                              loading="lazy"
+                              className="rounded-full"
+                              width={28}
+                              height={28}
+                            />
+                            <p>{invoice.customerId.replace(/\s+/g, '')}</p>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-3 lowercase">{invoice.customerId.replace(/\s+/g, '')}@gmail.com</td>
+                        <td className="whitespace-nowrap px-3 py-3">${invoice.amount}</td>
+                        <td className="whitespace-nowrap px-3 py-3">{invoice.date}</td>
+                        <td className="whitespace-nowrap px-3 py-3">
+                          <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${invoice.status === 'paid' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'}`}>
+                            {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                            <FontAwesomeIcon
+                              icon={invoice.status === 'paid' ? faCheck : faClock}
+                              className="ml-1 w-4 text-white"
+                            />
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-3">
+                          <div className="flex justify-end items-center gap-3">
+                            <button
+                              className="rounded-md border border-gray-300 p-2 hover:bg-gray-100"
+                              onClick={() => handleEdit(invoice, index)}
+                            >
+                              <FontAwesomeIcon icon={faPen} />
+                            </button>
+                            <button
+                              className="rounded-md border border-gray-300 p-2 hover:bg-gray-100"
+                              onClick={() => handleDelete(index)}
+                            >
+                              <span className="sr-only">Delete</span>
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
