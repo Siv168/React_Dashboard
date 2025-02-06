@@ -4,7 +4,7 @@ export const CustomerContext = createContext();
 
 export const CustomerProvider = ({ children }) => {
   const [customers, setCustomers] = useState([
-    { name: "John Doe", email: "johndoe@gmail.com", totalInvoice: 0, totalPending: 0, totalPaid: 0 },
+    { img:"https://assets.unileversolutions.com/v1/121910209.jpg", name: "John Doe", email: "johndoe@gmail.com", totalInvoice: 0, totalPending: 0, totalPaid: 0 },
     { name: "Jane Doe", email: "janedoe@gmail.com", totalInvoice: 0, totalPending: 0, totalPaid: 0 },
     { name: "Alice Smith", email: "alicesmith@gmail.com", totalInvoice: 0, totalPending: 0, totalPaid: 0 },
     { name: "Bob Johnson", email: "bobjohnson@gmail.com", totalInvoice: 0, totalPending: 0, totalPaid: 0 },
