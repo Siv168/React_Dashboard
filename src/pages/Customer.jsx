@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,8 +7,11 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { CustomerContext } from "../context/CustomerContext";
 
 function Customer() {
+  const { customers } = useContext(CustomerContext);
+
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
       <div className="w-full">
@@ -43,27 +46,27 @@ function Customer() {
                   </tr>
                 </thead>
                 <tbody className="bg-white tex-left">
-                  {/* Placeholder for customer data */}
-                  <tr className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
-                    <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src="https://thispersondoesnotexist.com/image"
-                          alt=""
-                          loading="lazy"
-                          className="rounded-full"
-                          width={28}
-                          height={28}
-                        />
-                        <p>John Doe</p>
-                      </div>
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-3 lowercase">johndoe@gmail.com</td>
-                    <td className="whitespace-nowrap px-3 py-3">1</td>
-                    <td className="whitespace-nowrap px-3 py-3">$0.00</td>
-                    <td className="whitespace-nowrap px-3 py-3">$1000.00</td>
-                  </tr>
-                  {/* Repeat similar rows for other customers */}
+                  {customers.map((customer, index) => (
+                    <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
+                      <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src="https://thispersondoesnotexist.com/image"
+                            alt=""
+                            loading="lazy"
+                            className="rounded-full"
+                            width={28}
+                            height={28}
+                          />
+                          <p>{customer.name}</p>
+                        </div>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 lowercase">{customer.email}</td>
+                      <td className="whitespace-nowrap px-3 py-3">{customer.totalInvoice}</td>
+                      <td className="whitespace-nowrap px-3 py-3">${customer.totalPending.toFixed(2)}</td>
+                      <td className="whitespace-nowrap px-3 py-3">${customer.totalPaid.toFixed(2)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

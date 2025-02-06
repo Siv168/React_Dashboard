@@ -3,9 +3,11 @@ import { faUser, faDollar, faClock, faCheck } from "@fortawesome/free-solid-svg-
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { InvoiceContext } from "../context/InvoiceContext";
+import { CustomerContext } from "../context/CustomerContext";
 
 function CreateInvoice() {
   const { invoices, setInvoices } = useContext(InvoiceContext);
+  const { customers, setCustomers } = useContext(CustomerContext);
 
   const getRandomDate = () => {
     const start = new Date(2020, 0, 1);
@@ -19,14 +21,31 @@ function CreateInvoice() {
     e.preventDefault();
     
     const data = new FormData(e.target);
+    const customerId = data.get("customerId");
+    const amount = parseFloat(data.get("amount"));
+    const status = data.get("status");
+    const date = getRandomDate();
+
     const customerData = {
-      customerId: data.get("customerId"),
-      amount: data.get("amount"),
-      status: data.get("status"),
-      date: getRandomDate(),
+      customerId,
+      amount,
+      status,
+      date,
     };
 
     setInvoices([...invoices, customerData]);
+
+    setCustomers(customers.map(customer => {
+      if (customer.name === customerId) {
+        customer.totalInvoice += 1;
+        if (status === "pending") {
+          customer.totalPending += amount;
+        } else if (status === "paid") {
+          customer.totalPaid += amount;
+        }
+      }
+      return customer;
+    }));
 
     e.target.reset();
   }
@@ -61,17 +80,10 @@ function CreateInvoice() {
                   name="customerId"
                   className="peer block w-full rounded-md border text-gray-600 border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                 >
-                  <option value="disable selected">Select a customer</option>
-                  <option value="John Doe">John Doe</option>
-                  <option value="Jane Doe">Jane Doe</option>
-                  <option value="Alice Smith">Alice Smith</option>
-                  <option value="Bob Johnson">Bob Johnson</option>
-                  <option value="Charlie Brown">Charlie Brown</option>
-                  <option value="David Wilson">David Wilson</option>
-                  <option value="Eva Green">Eva Green</option>
-                  <option value="Frank White">Frank White</option>
-                  <option value="Grace Black">Grace Black</option>
-                  <option value="Hannah Blue">Hannah Blue</option>
+                  <option value="" disabled selected>Select a customer</option>
+                  {customers.map((customer, index) => (
+                    <option key={index} value={customer.name}>{customer.name}</option>
+                  ))}
                 </select>
                 <FontAwesomeIcon icon={faUser} className="absolute top-3 left-4 text-gray-500" />
               </div>
