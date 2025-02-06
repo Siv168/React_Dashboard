@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +16,7 @@ import { InvoiceContext } from "../context/InvoiceContext";
 function Invoice() {
   const { invoices, setInvoices } = useContext(InvoiceContext);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   if (!invoices || !setInvoices) {
     console.error("Invoices context is not available or setInvoices is not a function");
@@ -36,6 +37,13 @@ function Invoice() {
     navigate("/invoice/editinvoice", { state: { invoice, index } });
   };
 
+  const filteredInvoices = invoices.filter(invoice =>
+    invoice.customerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    invoice.amount.toString().includes(searchTerm) ||
+    invoice.date.toLowerCase().includes(searchTerm) ||
+    invoice.status.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
       <div className="w-full">
@@ -47,6 +55,8 @@ function Invoice() {
             <input
               type="text"
               placeholder="Search for invoices..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="peer block w-full rounded-md border border-gray-300 py-[9px] pl-10 text-sm placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
             />
             <FontAwesomeIcon
@@ -76,8 +86,8 @@ function Invoice() {
                   </tr>
                 </thead>
                 <tbody className="bg-white">
-                  {invoices.map((invoice, index) => (
-                    <tr key={index} className="w-full border-b border-gray-300  py-3 text-sm last-of-type:border-none">
+                  {filteredInvoices.map((invoice, index) => (
+                    <tr key={index} className="w-full border-b border-gray-300 py-3 text-sm last-of-type:border-none">
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex items-center gap-3">
                           <img
