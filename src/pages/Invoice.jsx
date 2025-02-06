@@ -17,6 +17,16 @@ function Invoice() {
   const { invoices, setInvoices } = useContext(InvoiceContext);
   const navigate = useNavigate();
 
+  if (!invoices || !setInvoices) {
+    console.error("Invoices context is not available or setInvoices is not a function");
+    return <div>Error: Invoices context is not available</div>;
+  }
+
+  if (!Array.isArray(invoices)) {
+    console.error("Invoices is not an array", invoices);
+    return <div>Error: Invoices is not an array</div>;
+  }
+
   const handleDelete = (index) => {
     const updatedInvoices = invoices.filter((_, i) => i !== index);
     setInvoices(updatedInvoices);
@@ -25,16 +35,6 @@ function Invoice() {
   const handleEdit = (invoice, index) => {
     navigate("/invoice/editinvoice", { state: { invoice, index } });
   };
-
-  if (!invoices) {
-    console.error("Invoices context is not available");
-    return <div>Error: Invoices context is not available</div>;
-  }
-
-  if (!Array.isArray(invoices)) {
-    console.error("Invoices is not an array", invoices);
-    return <div>Error: Invoices is not an array</div>;
-  }
 
   return (
     <div className="grow p-6 md:overflow-y-auto md:p-12">
