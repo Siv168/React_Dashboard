@@ -197,26 +197,23 @@ const Chart = () => {
         <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
           <div className="bg-white px-6">
             {invoiceItems.map((item, index) => (
-              <div key={index}>
-                <div className="flex flex-row items-center justify-between py-4">
-                  <div className="flex items-center">
-                    <img src={item.avatar} alt="" loading="lazy" width={32} height={32} className="mr-4 rounded-full" />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold md:text-base">
-                        {item.first_name} {item.last_name}
-                      </p>
-                      <p className="text-xs text-gray-500 md:text-sm">
-                        {item.email}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
+              <div key={index} className={`flex flex-row items-center justify-between py-4 border-b border-gray-200 ${index === invoiceItems.length - 1 ? 'border-none' : ''}`}>
+                <div className="flex items-center">
+                  <img src={item.avatar} alt="" loading="lazy" width={32} height={32} className="mr-4 rounded-full" />
+                  <div className="min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
-                      ${item.id}{getRandomNumber()}.00
+                      {item.first_name} {item.last_name}
+                    </p>
+                    <p className="text-xs text-gray-500 md:text-sm">
+                      {item.email}
                     </p>
                   </div>
                 </div>
-                <hr className="my-1 border-gray-200" />
+                <div>
+                  <p className="truncate text-sm font-semibold md:text-base">
+                    ${item.id}{getRandomNumber()}.00
+                  </p>
+                </div>
               </div>
             ))}
           </div>
