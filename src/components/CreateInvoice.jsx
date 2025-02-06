@@ -35,7 +35,7 @@ function CreateInvoice() {
 
     setInvoices([...invoices, customerData]);
 
-    setCustomers(customers.map(customer => {
+    const updatedCustomers = customers.map(customer => {
       if (customer.name === customerId) {
         customer.totalInvoice += 1;
         if (status === "pending") {
@@ -45,7 +45,10 @@ function CreateInvoice() {
         }
       }
       return customer;
-    }));
+    });
+
+    setCustomers(updatedCustomers);
+    localStorage.setItem('customers', JSON.stringify(updatedCustomers));
 
     e.target.reset();
   }
