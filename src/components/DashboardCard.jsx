@@ -1,29 +1,44 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faInbox, faMoneyBill, faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { InvoiceContext } from "../context/InvoiceContext";
+
 function DashboardCard() {
+  const { invoices } = useContext(InvoiceContext);
+
+  const collectedAmount = invoices
+    .filter(invoice => invoice.status === 'paid')
+    .reduce((total, invoice) => total + parseFloat(invoice.amount), 0);
+
+  const pendingAmount = invoices
+    .filter(invoice => invoice.status === 'pending')
+    .reduce((total, invoice) => total + parseFloat(invoice.amount), 0);
+
+  const totalCustomers = new Set(invoices.map(invoice => invoice.customerId)).size;
+
   const data = [
     {
       title: 'Collected',
-      value: '$2,799.00',
+      value: `$${collectedAmount.toFixed(2)}`,
       icon : <FontAwesomeIcon icon={faMoneyBill} />
     },
     {
       title: 'Pending',
-      value: '$1,200.00',
+      value: `$${pendingAmount.toFixed(2)}`,
       icon : <FontAwesomeIcon icon={faClock} />
     },
     {
       title: 'Total Invoice',
-      value: '1',
+      value: invoices.length,
       icon : <FontAwesomeIcon icon={faInbox} />
     },
     {
       title: 'Total Customers',
-      value: '5',
+      value: totalCustomers,
       icon : <FontAwesomeIcon icon={faPeopleGroup} />
     }
+  ];
 
-  ]
   return (
     <>
       {
